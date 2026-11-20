@@ -1,0 +1,203 @@
+/**
+ * Task 2 — AnsPress style isolation (theme-proof overrides).
+ *
+ * Enqueued AFTER anspress-main / ap-overrides by AP_Custom_Style_Isolation.
+ * Every rule is scoped under the wrapper the plugin itself outputs
+ * (<div id="anspress" class="anspress"> — includes/shortcode-basepage.php:88),
+ * so specificity is at least ID+class (1,1,0) and wins over typical theme
+ * rules like `.content-area input` or `form select` WITHOUT any !important.
+ *
+ * Values mirror the plugin's own defaults from templates/css/main.css
+ * (.ap-btn in _buttons.scss, .ap-form-control in _form.scss) so that even a
+ * heavy theme reset cannot visually break AnsPress controls.
+ */
+
+/* ---------------------------------------------------------------------
+ * Form controls: neutralize theme element styles (input/select/textarea).
+ * ------------------------------------------------------------------- */
+#anspress .ap-form-control,
+.anspress .ap-form-control {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	min-height: 33px;
+	margin: 0;
+	padding: 5px 8px;
+	font-family: inherit;
+	font-size: 14px;
+	line-height: 1.4;
+	color: #333;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ddd;
+	border-radius: 1px;
+	outline: 0;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.02) inset;
+	vertical-align: middle;
+	text-indent: 0;
+	float: none;
+}
+
+#anspress textarea.ap-form-control,
+.anspress textarea.ap-form-control {
+	height: auto;
+	min-height: 90px;
+	resize: vertical;
+}
+
+#anspress select.ap-form-control,
+.anspress select.ap-form-control {
+	height: 33px;
+	padding: 4px 6px;
+	cursor: pointer;
+	-webkit-appearance: auto;
+	appearance: auto;
+}
+
+#anspress .ap-form-control:focus,
+.anspress .ap-form-control:focus {
+	border-color: #bfbfbf;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.1) inset;
+	outline: 0;
+}
+
+#anspress .ap-form-control[disabled],
+#anspress .ap-form-control[readonly],
+.anspress .ap-form-control[disabled],
+.anspress .ap-form-control[readonly] {
+	background-color: #eee;
+	opacity: 1;
+	cursor: not-allowed;
+}
+
+/* Placeholder color independent of theme resets. */
+#anspress .ap-form-control::placeholder,
+.anspress .ap-form-control::placeholder {
+	color: #9a9a9a;
+	opacity: 1;
+}
+
+/* ---------------------------------------------------------------------
+ * Buttons (.ap-btn family used by AnsPress instead of the WP .button).
+ * ------------------------------------------------------------------- */
+#anspress .ap-btn,
+.anspress .ap-btn {
+	display: inline-block;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 5px 10px;
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.4;
+	text-align: center;
+	text-decoration: none;
+	text-transform: none;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	float: none;
+	width: auto;
+	color: #333;
+	background-color: #fcfcfc;
+	background-image: linear-gradient(#fff, #fcfcfc);
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 2px;
+	box-shadow: none;
+	outline: 0;
+	user-select: none;
+}
+
+#anspress .ap-btn:hover,
+.anspress .ap-btn:hover {
+	color: #333;
+	text-decoration: none;
+	background-image: linear-gradient(#fdfdfd, #f7f7f7);
+	border-color: rgba(0, 0, 0, 0.3);
+}
+
+#anspress .ap-btn:focus,
+.anspress .ap-btn:active,
+.anspress .ap-btn:hover {
+	outline: 0;
+	box-shadow: none;
+}
+
+#anspress .ap-btn[disabled],
+.anspress .ap-btn[disabled]:hover {
+	opacity: 0.6;
+	cursor: default;
+	background-image: none;
+}
+
+/* Primary variant (matches main.css intent, theme-proof). */
+#anspress .ap-btn-primary,
+.anspress .ap-btn-primary {
+	color: #fff;
+	background-color: #2cbc4f;
+	background-image: none;
+	border-color: rgba(0, 0, 0, 0.15);
+}
+
+#anspress .ap-btn-primary:hover,
+.anspress .ap-btn-primary:focus,
+.anspress .ap-btn-primary:active,
+.anspress .ap-btn-primary:hover {
+	color: #fff;
+	background-color: #29ab47;
+}
+
+/* ---------------------------------------------------------------------
+ * Labels & form layout basics (defend against theme typography resets).
+ * ------------------------------------------------------------------- */
+#anspress .ap-form-label,
+.anspress .ap-form-label {
+	display: inline-block;
+	max-width: 100%;
+	margin-bottom: 4px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.4;
+	color: inherit;
+	text-transform: none;
+}
+
+#anspress .ap-form-group,
+.anspress .ap-form-group {
+	margin-bottom: 15px;
+}
+
+/* Child-category select rendered by Task 1 sits inside the same group. */
+#anspress .ap-child-categories,
+.anspress .ap-child-categories {
+	margin-top: 8px;
+}
+
+/* ---------------------------------------------------------------------
+ * Fallback for bare elements inside the wrapper: if a theme targets
+ * generic selectors (e.g. ".entry-content select"), restore sane
+ * defaults inside #anspress without touching anything else.
+ * ------------------------------------------------------------------- */
+#anspress input[type="text"],
+#anspress input[type="email"],
+#anspress input[type="url"],
+#anspress input[type="password"],
+#anspress input[type="search"],
+#anspress input[type="number"],
+#anspress input[type="tel"],
+#anspress select,
+#anspress textarea,
+.anspress input[type="text"],
+.anspress input[type="email"],
+.anspress input[type="url"],
+.anspress input[type="password"],
+.anspress input[type="search"],
+.anspress input[type="number"],
+.anspress input[type="tel"],
+.anspress select,
+.anspress textarea {
+	box-sizing: border-box;
+	margin-left: 0;
+	margin-right: 0;
+	max-width: 100%;
+}
