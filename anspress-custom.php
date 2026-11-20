@@ -50,8 +50,10 @@ function ap_custom_init() {
 		return; // AnsPress is not active — bail out gracefully.
 	}
 
-	AP_Custom_Hierarchical_Category::instance();
+	// Task 2 first: its plugins_loaded(99) re-hook of ap_scripts_front must be
+	// registered before anything else touches wp_enqueue_scripts.
 	AP_Custom_Style_Isolation::instance();
+	AP_Custom_Hierarchical_Category::instance();
 }
 
 /**
